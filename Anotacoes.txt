@@ -1,0 +1,4 @@
+
+site api: https://www.omdbapi.com/
+user: N/A
+apikey: 8aa74ee5
