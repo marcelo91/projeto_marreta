@@ -1,5 +1,6 @@
 Anotacoes.txt
 /env
+/__pycache__
 /database/__pycache__
 /database/DDL/__pycache__
 /database/DML/__pycache__
