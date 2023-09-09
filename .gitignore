@@ -1,5 +1,8 @@
-<<<<<<< HEAD
-/venv_projeto_marreta/
-=======
-/venv_projeto_marreta/
->>>>>>> 23b9cd2a870e4ad98e5dc425f93bdd9b2a8130ab
+Anotacoes.txt
+/env
+/database/__pycache__
+/database/DDL/__pycache__
+/database/DML/__pycache__
+/database/config.py
+/.vscode
+config.py
