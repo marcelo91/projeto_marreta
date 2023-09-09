@@ -1,33 +1,49 @@
 import requests
 import json
+import config
+import api_filmes
 
-# Função para fazer a requisição ao OMDB
-def get_movie_info(movie_name, api_key):
-    base_url = "http://www.omdbapi.com/"
-    params = {
-        't': movie_name,
-        'apikey': api_key
-    }
-    response = requests.get(base_url, params=params)
-    return response.json()
+def carrega_filmes():
+    # Carregando os filmes da API do site omdbapi.com
+    lista_filmes_api = []
 
-# Sua chave de API do OMDB
-api_key = '8aa74ee5'
+    # ler arquivo com a lista de titulos de filmes    
+    with open('data/amostra_filmes.txt', 'r') as arquivo_filmes:
+        filmes = arquivo_filmes.readlines()
+        arquivo_filmes.close()
 
-# Abrir e ler o arquivo de texto
-with open('data/filmes.txt', 'r') as file:
-    movie_names = file.readlines()
+    # Buscar os filmes da API
+    for filme in filmes:
+        filme = filme.strip()
 
-# Iterar sobre os nomes de filme e fazer requisições
-with open('data/movie_data.json', 'w') as json_file:
-    for movie_name in movie_names:
-        movie_name = movie_name.strip()
-        movie_data = get_movie_info(movie_name, api_key)
-        
-        if movie_data['Response'] == 'True':
-            json.dump(movie_data, json_file)
-            json_file.write('\n')  # Adicionar uma quebra de linha após cada objeto JSON
-        else:
-            print(f"Erro ao obter informações para o filme: {movie_name}")
+        lista_filmes_api.append(api_filmes.get_movie_info(filme, config.api_config['api_key']))
 
-print("Dados salvos no arquivo 'movie_data.json'.")
+    return lista_filmes_api
+
+def salva_arquivo():
+    # Salvar a lista de filmes da API em arquivo JSON
+
+    # Recebe lista e arquivos
+    lista_filmes_api = carrega_filmes()
+
+    # Arquivo para salvar os dados
+    with open('data/movie_data.json', 'w') as json_file:
+        for filme in lista_filmes_api:
+            json.dump(filme, json_file)
+            json_file.write('\n')
+    
+    print('Arquivo gerado com sucesso!')
+
+def trata_json():
+    # Tratar o conteúdo do retorno da API
+
+    # Recebe lista e arquivos
+    lista_filmes_api = carrega_filmes()
+
+    # Verificando se a TAG Ratings possui valor ou objeto e realizando o devido tratamento
+    for filme_api in lista_filmes_api:
+        i = 0
+        if isinstance(filme_api['Ratings'], list):
+            # Passados os objetos
+            for df_ratings in filme_api['Ratings']:
+                # continuar
