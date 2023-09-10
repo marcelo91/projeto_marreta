@@ -8,5 +8,4 @@ Anotacoes.txt
 /.vscode
 config.py
 *.ipynb*
-testes_db.py
-trataJson.py
+/tmp
