@@ -7,3 +7,6 @@ Anotacoes.txt
 /database/config.py
 /.vscode
 config.py
+*.ipynb*
+testes_db.py
+trataJson.py
